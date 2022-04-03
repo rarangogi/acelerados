@@ -5,10 +5,7 @@ from flask_restful import Resource
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import check_password_hash
 
-from database.db import engine, create_session
-from database.models import BlackListModel
 from schemas.schemas import BlackListSchema
-from utils.db_utils import save_to_db
 from settings import APP, basic_auth_users
 
 black_list_schema = BlackListSchema()
@@ -27,36 +24,36 @@ class Health(Resource):
     def get(self):
         return {"status": "ok"}, 200
 
-
-class GetBlackList(Resource):
-    @auth.login_required
-    def get(self, email: str) -> dict:
-        logging.info(f'{APP} logger Get Black List:'
-                     f'start for email {email}')
-        session = create_session(engine_object=engine)
-        black_list = session.query(BlackListModel).filter(
-            BlackListModel.email == email
-        ).first()
-        response = black_list_schema.dump(black_list)
-        session.remove()
-        logging.info(f'{APP} logger Get Black List:'
-                     f'done for email {email} '
-                     f'response {response}')
-        return response
-
-
-class PostBlackList(Resource):
-    @auth.login_required
-    def post(self) -> dict:
-        data = request.get_json(force=True)
-        logging.info(f'{APP} logger Post Black List:'
-                     f'start for {data}')
-        data["ip"] = request.remote_addr
-        session = create_session(engine_object=engine)
-        save_to_db(session=session, db_model=BlackListModel(
-            **data
-        ))
-        session.remove()
-        logging.info(f'{APP} logger Post Black List:'
-                     f'done for {data}')
-        return data
+#
+# class GetBlackList(Resource):
+#     @auth.login_required
+#     def get(self, email: str) -> dict:
+#         logging.info(f'{APP} logger Get Black List:'
+#                      f'start for email {email}')
+#         session = create_session(engine_object=engine)
+#         black_list = session.query(BlackListModel).filter(
+#             BlackListModel.email == email
+#         ).first()
+#         response = black_list_schema.dump(black_list)
+#         session.remove()
+#         logging.info(f'{APP} logger Get Black List:'
+#                      f'done for email {email} '
+#                      f'response {response}')
+#         return response
+#
+#
+# class PostBlackList(Resource):
+#     @auth.login_required
+#     def post(self) -> dict:
+#         data = request.get_json(force=True)
+#         logging.info(f'{APP} logger Post Black List:'
+#                      f'start for {data}')
+#         data["ip"] = request.remote_addr
+#         session = create_session(engine_object=engine)
+#         save_to_db(session=session, db_model=BlackListModel(
+#             **data
+#         ))
+#         session.remove()
+#         logging.info(f'{APP} logger Post Black List:'
+#                      f'done for {data}')
+#         return data

@@ -4,8 +4,7 @@ from flask import Flask
 from flask_restful import Api
 from waitress import serve
 
-from database.db import engine, Base
-from views.views import Health, GetBlackList, PostBlackList
+from views.views import Health
 import settings
 
 
@@ -15,9 +14,6 @@ def create_app():
     return app
 
 
-# Database resource creation
-Base.metadata.create_all(bind=engine)
-
 logging.basicConfig(format=settings.LOG_PATTERN, level=logging.INFO)
 
 app = create_app()
@@ -26,8 +22,6 @@ app_context.push()
 
 api = Api(app)
 api.add_resource(Health, '/health')
-api.add_resource(GetBlackList, '/blacklists/<string:email>')
-api.add_resource(PostBlackList, '/blacklists')
 
 
 if __name__ == "__main__":

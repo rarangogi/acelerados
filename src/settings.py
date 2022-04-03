@@ -20,7 +20,7 @@ basic_auth_users = {
 
 # Config Local Database
 DB_MICROSERVICE_HOST = \
-    os.getenv('db_host', 'localhost')
+    os.getenv('db_host', 'aamsw3rbmup84y.cjfeeiom07q0.us-east-2.rds.amazonaws.com')
 DB_MICROSERVICE_PORT = \
     int(os.getenv('db_port', 5432))
 DB_MICROSERVICE_USERNAME = \
@@ -28,7 +28,7 @@ DB_MICROSERVICE_USERNAME = \
 DB_MICROSERVICE_PASSWORD = \
     os.getenv('db_password', 'postgres')
 DB_MICROSERVICE_DATABASE = \
-    os.getenv('db_name', 'postgres')
+    os.getenv('db_name', 'aamsw3rbmup84y')
 
 # WAITRESS CONFIG
 WAITRESS_WORKERS = int(os.getenv('WAITRESS_WORKERS', 8))
